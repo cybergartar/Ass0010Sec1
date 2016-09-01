@@ -33,7 +33,7 @@ class UI {
         choice = input.next().charAt(0);
 
         if(!isValidChoice(choice)){
-            printError("Invalid input! (Aceept only 1 or 2)");
+            printError("Invalid input! (Accept only 1 or 2)");
             return -1;
         }
         return (choice - '0');
