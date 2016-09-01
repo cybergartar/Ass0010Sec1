@@ -44,7 +44,8 @@ class UI {
             if(os.contains("Windows"))
                 Runtime.getRuntime().exec("cls");
             else
-                Runtime.getRuntime().exec("clear");
+                System.out.print("\033[H\033[2J");
+                    System.out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
