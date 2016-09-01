@@ -7,12 +7,15 @@ class UI {
 
     private static Scanner input = new Scanner(System.in);
     private static char choice;
-    private static boolean validChoice;
 
     static int printMainMenu(){
 
 
         clearConsole();
+        for(int i = 0; i < 80; i++)
+            System.out.print("=");
+        System.out.println();
+
         System.out.println("|  _ \\| ____/ ___| | |/ /  \\/  |_ _|_   _| |");
         System.out.println("| |_) |  _|| |  _  | ' /| |\\/| || |  | | | |    ");
         System.out.println("|  _ <| |__| |_| | | . \\| |  | || |  | | | |___");
@@ -28,8 +31,8 @@ class UI {
         System.out.print("Enter number (1-2): ");
 
         choice = input.next().charAt(0);
-        validChoice  = isValidChoice(choice);
-        if(!validChoice){
+
+        if(!isValidChoice(choice)){
             printError("Invalid input! (Aceept only 1 or 2)");
             return -1;
         }
