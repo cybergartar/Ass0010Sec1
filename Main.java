@@ -14,6 +14,9 @@ public class Main {
         System.out.println(choice); //DBG
 
         //TODO: handle student menu
+        if(choice == 1){
+
+        }
 
         //TODO: handle teacher menu
 

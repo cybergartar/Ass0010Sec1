@@ -62,7 +62,7 @@ class UI {
     }
 
     static void printBestDimensionNotifier(){
-        System.out.println("This program run best on command line or terminal with 80*40 dimension console");
+        System.out.println("This program run best on command line or terminal with 80*20 dimension");
         System.out.println("Press ENTER to continue....");
         try {
             System.in.read();
@@ -71,7 +71,7 @@ class UI {
         }
     }
 
-    private static void printError(String errMessage){
+    public static void printError(String errMessage){
         System.out.println(errMessage);
         System.out.println("Press ENTER to try again....");
         try {
