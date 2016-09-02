@@ -2,11 +2,8 @@ package Ass0010Sec1;
 
 import java.util.ArrayList;
 
-/**
- * Created by ultimate on 9/2/16.
- */
 class Subject {
-    class SubjectInfo{
+    static class SubjectInfo{
         String id, name;
         int credits;
 
@@ -17,7 +14,7 @@ class Subject {
         }
     }
 
-    private ArrayList<SubjectInfo> subjects = new ArrayList<SubjectInfo>(){{
+    static ArrayList<SubjectInfo> subjects = new ArrayList<SubjectInfo>(){{
         add(new SubjectInfo("01006003", "ENGINEERING MATHEMATICS 3", 3));
         add(new SubjectInfo("01076232", "ELECTRONICS FOR COMPUTER ENGINEERING", 3));
         add(new SubjectInfo("01076233", "CIRCUITS AND ELECTRONICS LABORATORY", 1));
@@ -40,7 +37,7 @@ class Subject {
         add(new SubjectInfo("90305001", "THAI CIVILIZATION", 3));
     }};
 
-    public ArrayList<SubjectInfo> getSubjects() {
+    public static ArrayList<SubjectInfo> getSubjects() {
         return subjects;
     }
 }
