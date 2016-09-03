@@ -14,7 +14,7 @@ class Subject {
         }
     }
 
-    static ArrayList<SubjectInfo> subjects = new ArrayList<SubjectInfo>(){{
+    final static ArrayList<SubjectInfo> subjects = new ArrayList<SubjectInfo>(){{
         add(new SubjectInfo("01006003", "ENGINEERING MATHEMATICS 3", 3));
         add(new SubjectInfo("01076232", "ELECTRONICS FOR COMPUTER ENGINEERING", 3));
         add(new SubjectInfo("01076233", "CIRCUITS AND ELECTRONICS LABORATORY", 1));
