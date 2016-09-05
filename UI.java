@@ -40,7 +40,7 @@ class UI {
 
     }
 
-    static void printStudentBar(){
+    private static void printStudentBar(){
         clearConsole();
         for(int i = 0; i < 80; i++)
             System.out.print("=");
