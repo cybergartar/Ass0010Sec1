@@ -414,6 +414,8 @@ class UI {
     }
 
     static void printError(String errMessage){
+//        TODO: find a way to clear command line on Windows
+
         System.out.println();
         System.out.println(errMessage);
         System.out.println("Press ENTER to try again....");

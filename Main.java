@@ -16,11 +16,10 @@ public class Main {
                 choice = UI.printMainMenu();
             }while (choice < 0);
 
-            System.out.println(choice); //DBG
+            System.out.println(choice);
             if(choice == 0)
                 System.exit(0);
 
-            //TODO: handle student menu
             if(choice == 1){
                 boolean successLogIn, found = false;
                 Student loggedInUser;
