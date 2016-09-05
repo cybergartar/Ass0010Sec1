@@ -67,6 +67,9 @@ public class Main {
                         UI.addMenu(loggedInUser);
 
                     }
+                    else if(choice == 3){
+                        UI.changeMenu(loggedInUser);
+                    }
                     else if (choice == 0)
                         break;
                 }

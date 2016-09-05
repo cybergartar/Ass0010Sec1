@@ -61,6 +61,11 @@ class Student {
         return true;
     }
 
+    boolean remove(Subject.SubjectInfo subject){
+        enrolledSubject.remove(subject);
+        return true;
+    }
+
     public boolean isEnrolled() {
         return enrolled;
     }

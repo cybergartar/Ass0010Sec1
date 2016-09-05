@@ -237,6 +237,68 @@ class UI {
 
     }
 
+    static void changeMenu(Student student){
+        String findID, replaceID;
+        boolean validFind = true, validReplace = true;
+
+        printAllSubjects(student.getEnrolledSubject());
+
+        do{
+            System.out.println();
+            System.out.print("Please enter subject ID of which you want to change: ");
+            findID = input.next();
+            for (int i = 0; i < 8; i++)
+                if(!Character.isDigit(findID.charAt(i))) {
+                    UI.printError("Invalid subject ID!");
+                    validFind = false;
+                    break;
+                }
+            if(validFind){
+                boolean found = false;
+                for(Subject.SubjectInfo i : student.getEnrolledSubject()){
+                    if(i.id.equals(findID)) {
+                        student.remove(i);
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found) {
+                    UI.printError("You have not enrolled this subject!");
+                    validFind = false;
+                }
+            }
+
+        } while(!validFind);
+
+        do{
+            System.out.println();
+            System.out.print("Please enter subject ID of which you want to change to: ");
+            replaceID = input.next();
+            for (int i = 0; i < 8; i++)
+                if(!Character.isDigit(replaceID.charAt(i))) {
+                    UI.printError("Invalid subject ID!");
+                    validReplace = false;
+                    break;
+                }
+            if(validReplace){
+                boolean found = false;
+                for(Subject.SubjectInfo i : Subject.subjects){
+                    if(i.id.equals(replaceID)) {
+                        student.enroll(i);
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found) {
+                    UI.printError("You have not enrolled this subject!");
+                    validReplace = false;
+                }
+            }
+        } while(!validReplace);
+
+
+    }
+
     private static void clearConsole(){
         try {
             final String os = System.getProperty("os.name");
