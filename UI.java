@@ -60,6 +60,7 @@ class UI {
         String id, name, surname;
         boolean validLogin = true;
         do{
+            validLogin = true;
             printStudentBar();
 
             System.out.println("Please enter student ID, name, and surname");
@@ -244,6 +245,7 @@ class UI {
         printAllSubjects(student.getEnrolledSubject());
 
         do{
+            validFind = true;
             System.out.println();
             System.out.print("Please enter subject ID of which you want to change: ");
             findID = input.next();
@@ -259,6 +261,7 @@ class UI {
                     if(i.id.equals(findID)) {
                         student.remove(i);
                         found = true;
+                        validFind = true;
                         break;
                     }
                 }
@@ -271,6 +274,7 @@ class UI {
         } while(!validFind);
 
         do{
+            validReplace = true;
             System.out.println();
             System.out.print("Please enter subject ID of which you want to change to: ");
             replaceID = input.next();
@@ -286,17 +290,23 @@ class UI {
                     if(i.id.equals(replaceID)) {
                         student.enroll(i);
                         found = true;
+                        validReplace = true;
                         break;
                     }
                 }
                 if(!found) {
-                    UI.printError("You have not enrolled this subject!");
+                    UI.printError("Subject not found!");
                     validReplace = false;
                 }
             }
         } while(!validReplace);
 
-
+        System.out.println("Change complete! Press ENTER to continue");
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void clearConsole(){
