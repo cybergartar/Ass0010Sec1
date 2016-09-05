@@ -1,12 +1,11 @@
 package Ass0010Sec1;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Main {
-    static ArrayList<Student> students = new ArrayList<>();
 
     public static void main(String[] args) {
+        ArrayList<Student> students = new ArrayList<>();
         int choice;
 
         UI.printBestDimensionNotifier();
@@ -23,7 +22,7 @@ public class Main {
 
             //TODO: handle student menu
             if(choice == 1){
-                boolean successLogIn;
+                boolean successLogIn, found = false;
                 Student loggedInUser;
 
                 do{
@@ -32,27 +31,45 @@ public class Main {
                     if(!students.isEmpty()){
                         for(Student i : students){
                             if(i.getId().equals(loggedInUser.getId())){
-                                UI.printError("You cannot enroll twice!");
-                                successLogIn = false;
+                                if(i.isSubmitStatus()){
+                                    UI.printError("You cannot enroll twice!");
+                                    successLogIn = false;
+                                }
+                                else{
+                                    loggedInUser = i;
+                                    found = true;
+                                }
                             }
                         }
                     }
-
-                    students.add(loggedInUser);
+                    if(!found)
+                        students.add(loggedInUser);
                 }while(!successLogIn);
 
-                do{
-                    choice = UI.printStudentMenu(loggedInUser.getName());
-                }while(choice < 0);
+                while (true){
+                    do{
+                        choice = UI.printStudentMenu(loggedInUser.getName());
+                    }while(choice < 0);
 
-                if(choice == 1){
-                    UI.printAllSubjects();
-                    System.out.println("Your current credits is " + loggedInUser.getCredits() + "/23");
-                    System.out.print("Please enter subject ID you want to enroll or type \"See\" to see enrolled subject: ");
+                    if(choice == 1){
+                        if(!loggedInUser.isEnrolled()){
+                            UI.printAllSubjects(Subject.subjects);
+                            boolean finished;
+                            do{
+                                finished = (UI.enrollMenu(loggedInUser) == 1);
+                            }while(!finished);
+                        }
+                        else
+                            UI.printError("You have enrolled! If you want to add subject, please use Add menu");
+                    }
+                    else if(choice == 2){
+                        UI.printAllSubjects(Subject.subjects);
+                        UI.addMenu(loggedInUser);
 
-
+                    }
+                    else if (choice == 0)
+                        break;
                 }
-
 
             }
         }

@@ -7,7 +7,7 @@ class Subject {
         String id, name;
         int credits;
 
-        public SubjectInfo(String id, String name, int credits) {
+        private SubjectInfo(String id, String name, int credits) {
             this.id = id;
             this.name = name;
             this.credits = credits;
@@ -37,7 +37,4 @@ class Subject {
         add(new SubjectInfo("90305001", "THAI CIVILIZATION", 3));
     }};
 
-    public static ArrayList<SubjectInfo> getSubjects() {
-        return subjects;
-    }
 }

@@ -5,14 +5,16 @@ import java.util.ArrayList;
 class Student {
     private String id, name, surname;
     private int credits;
-    private ArrayList<String> enrolledSubject = new ArrayList<>();
-    private boolean submitStatus;
+    private ArrayList<Subject.SubjectInfo> enrolledSubject = new ArrayList<>();
+    private boolean submitted, enrolled;
+
 
     Student(String... info) {
         this.id = info[0];
         this.name = info[1];
         this.surname = info[2];
-        this.submitStatus = false;
+        this.submitted = false;
+        this.enrolled = false;
     }
 
     String getId() {
@@ -35,15 +37,35 @@ class Student {
         this.credits = credits;
     }
 
-    boolean enroll(String subject, int subjectCredit){
+    boolean isSubmitStatus() {
+        return submitted;
+    }
+
+    void setSubmitStatus(boolean submitStatus) {
+        this.submitted = submitStatus;
+    }
+
+    ArrayList<Subject.SubjectInfo> getEnrolledSubject() {
+        return enrolledSubject;
+    }
+
+    boolean enroll(Subject.SubjectInfo subject){
         int currentCredit = getCredits();
-        if(currentCredit + subjectCredit > 22){
+        if(currentCredit + subject.credits > 22){
             UI.printError("Cannot enroll! (Maximum credits exceed)");
             return false;
         }
 
         enrolledSubject.add(subject);
-        setCredits(currentCredit + subjectCredit);
+        setCredits(currentCredit + subject.credits);
         return true;
+    }
+
+    public boolean isEnrolled() {
+        return enrolled;
+    }
+
+    public void setEnrollStatus(boolean enrollStatus) {
+        this.enrolled = enrollStatus;
     }
 }

@@ -40,29 +40,32 @@ class UI {
 
     }
 
+    static void printStudentBar(){
+        clearConsole();
+        for(int i = 0; i < 80; i++)
+            System.out.print("=");
+        System.out.println();
+
+        System.out.println("/ ___|| |_ _   _  __| | ___ _ __ | |");
+        System.out.println("\\___ \\| __| | | |/ _` |/ _ \\ '_ \\| __|");
+        System.out.println(" ___) | |_| |_| | (_| |  __/ | | | |");
+        System.out.println("|____/ \\__|\\__,_|\\__,_|\\___|_| |_|\\__|");
+
+        for(int i = 0; i < 80; i++)
+            System.out.print("=");
+        System.out.println();
+    }
+
     static Student printStudentLogin(){
         String id, name, surname;
-        boolean validLogin = false;
+        boolean validLogin = true;
         do{
-            clearConsole();
-            for(int i = 0; i < 80; i++)
-                System.out.print("=");
-            System.out.println();
-
-            System.out.println("/ ___|| |_ _   _  __| | ___ _ __ | |");
-            System.out.println("\\___ \\| __| | | |/ _` |/ _ \\ '_ \\| __|");
-            System.out.println(" ___) | |_| |_| | (_| |  __/ | | | |");
-            System.out.println("|____/ \\__|\\__,_|\\__,_|\\___|_| |_|\\__|");
-
-            for(int i = 0; i < 80; i++)
-                System.out.print("=");
-            System.out.println();
+            printStudentBar();
 
             System.out.println("Please enter student ID, name, and surname");
             System.out.print("Student ID: ");   id = input.next();
             System.out.print("Name: ");   name = input.next();
             System.out.print("Surname: ");   surname = input.next();
-            validLogin = true;
 
             if(id.length() != 8)
                 validLogin = false;
@@ -80,19 +83,7 @@ class UI {
     }
 
     static int printStudentMenu(String studentName){
-        clearConsole();
-        for(int i = 0; i < 80; i++)
-            System.out.print("=");
-        System.out.println();
-
-        System.out.println("/ ___|| |_ _   _  __| | ___ _ __ | |");
-        System.out.println("\\___ \\| __| | | |/ _` |/ _ \\ '_ \\| __|");
-        System.out.println(" ___) | |_| |_| | (_| |  __/ | | | |");
-        System.out.println("|____/ \\__|\\__,_|\\__,_|\\___|_| |_|\\__|");
-
-        for(int i = 0; i < 80; i++)
-            System.out.print("=");
-        System.out.println();
+        printStudentBar();
 
         System.out.println("Hello " + studentName + "!, What do you want to do today?");
         System.out.println("1. Enroll");
@@ -113,14 +104,13 @@ class UI {
 
     }
 
-    static void printAllSubjects(){
-        ArrayList<Subject.SubjectInfo> subjects = Subject.getSubjects();
+    static void printAllSubjects(ArrayList<Subject.SubjectInfo> subject){
         clearConsole();
         System.out.println("╔════════════╦═══════════════════════════════════════════════════════╦═════════╗");
         System.out.println("║ Subject ID ║                        Name                           ║ Credits ║");
         System.out.println("╠════════════╬═══════════════════════════════════════════════════════╬═════════╣");
 
-        for(Subject.SubjectInfo i : subjects){
+        for(Subject.SubjectInfo i : subject){
             System.out.print("║  " + i.id + "  ║ " + i.name);
             for(int j = 0; j < 54-i.name.length(); j++)
                 System.out.print(" ");
@@ -130,6 +120,123 @@ class UI {
         System.out.println("╚════════════╩═══════════════════════════════════════════════════════╩═════════╝");
 
     }
+
+    static int enrollMenu(Student student){
+        System.out.println();
+        System.out.println("Your current credits is " + student.getCredits() + "/23");
+        System.out.print("Please enter subject ID you want to enroll, type \"See\" to see enrolled subject or \"Fin\" to finish : ");
+
+        String command = input.next();
+
+        if(command.equals("See"))
+            if(student.getEnrolledSubject().size() == 0)
+                UI.printError("You haven't enrolled any subject yet!");
+            else
+                printAllSubjects(student.getEnrolledSubject());
+        else if(command.equals("Fin"))
+            if(student.getCredits() < 9)
+                UI.printError("Your current credits are less than 9. Please enroll more");
+            else
+                return 1;
+        else{
+            boolean validID = true;
+            if(command.length() != 8)
+                UI.printError("Invalid subject ID!");
+            else{
+                for (int i = 0; i < 8; i++)
+                    if(!Character.isDigit(command.charAt(i))) {
+                        UI.printError("Invalid subject ID!");
+                        validID = false;
+                        break;
+                }
+                if(validID){
+                    boolean found = false;
+                    for(Subject.SubjectInfo i : Subject.subjects){
+                        if(i.id.equals(command)){
+                            found = true;
+                            boolean isEnrolled = false;
+                            for(Subject.SubjectInfo j : student.getEnrolledSubject())
+                                if(j.id.equals(command)){
+                                    UI.printError("You have enrolled this subject!");
+                                    isEnrolled = true;
+                                }
+                            if(!isEnrolled){
+                                student.enroll(i);
+                                student.setEnrollStatus(true);
+                            }
+                        }
+
+                  }
+                  if(!found)
+                      UI.printError("Subject not found!");
+                }
+            }
+
+
+        }
+        return -1;
+    }
+
+    static void addMenu(Student student){
+        boolean isFinished = false;
+        do {
+            System.out.println();
+            System.out.println("Your current credits is " + student.getCredits() + "/23");
+            System.out.print("Please enter subject ID you want to add or type \"See\" to see enrolled subject or type \"Cancel\" to go back: ");
+            String command = input.next();
+            if(command.equals("See"))
+                UI.printAllSubjects(student.getEnrolledSubject());
+            else if(command.equals("Cancel"))
+                isFinished = true;
+            else{
+                boolean validID = true;
+                if(command.length() != 8)
+                    UI.printError("Invalid subject ID!");
+                else{
+                    for (int i = 0; i < 8; i++)
+                        if(!Character.isDigit(command.charAt(i))) {
+                            UI.printError("Invalid subject ID!");
+                            validID = false;
+                            break;
+                        }
+                    if(validID){
+                        boolean found = false;
+                        for(Subject.SubjectInfo i : Subject.subjects){
+                            if(i.id.equals(command)){
+                                found = true;
+                                boolean isEnrolled = false;
+                                for(Subject.SubjectInfo j : student.getEnrolledSubject())
+                                    if(j.id.equals(command)){
+                                        UI.printError("You have enrolled this subject!");
+                                        isEnrolled = true;
+                                    }
+                                if(!isEnrolled){
+                                    student.enroll(i);
+                                    student.setEnrollStatus(true);
+                                    isFinished = true;
+                                    System.out.println("Add complete! Press ENTER to continue");
+                                    try {
+                                        System.in.read();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                        }
+                        if(!found)
+                            UI.printError("Subject not found!");
+                    }
+                }
+            }
+
+
+        } while(!isFinished);
+
+
+
+    }
+
     private static void clearConsole(){
         try {
             final String os = System.getProperty("os.name");
@@ -162,6 +269,7 @@ class UI {
     }
 
     static void printError(String errMessage){
+        System.out.println();
         System.out.println(errMessage);
         System.out.println("Press ENTER to try again....");
         try {
