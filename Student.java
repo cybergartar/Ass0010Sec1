@@ -63,6 +63,7 @@ class Student {
 
     boolean remove(Subject.SubjectInfo subject){
         enrolledSubject.remove(subject);
+        setCredits(getCredits() - subject.credits);
         return true;
     }
 

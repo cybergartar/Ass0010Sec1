@@ -46,34 +46,51 @@ public class Main {
                         students.add(loggedInUser);
                 }while(!successLogIn);
 
-                while (true){
-                    do{
-                        choice = UI.printStudentMenu(loggedInUser.getName());
-                    }while(choice < 0);
+                if(!loggedInUser.getId().equals("00000000")){
+                    while (true){
+                        do{
+                            choice = UI.printStudentMenu(loggedInUser.getName());
+                        }while(choice < 0);
 
-                    if(choice == 1){
-                        if(!loggedInUser.isEnrolled()){
-                            UI.printAllSubjects(Subject.subjects);
-                            boolean finished;
-                            do{
-                                finished = (UI.enrollMenu(loggedInUser) == 1);
-                            }while(!finished);
+                        if(choice == 1){
+                            if(!loggedInUser.isEnrolled()){
+                                UI.printAllSubjects(Subject.subjects);
+                                boolean finished;
+                                do{
+                                    finished = (UI.enrollMenu(loggedInUser) == 1);
+                                }while(!finished);
+                            }
+                            else
+                                UI.printError("You have enrolled! If you want to add subject, please use Add menu");
+                        }
+                        else if(choice != 0){
+                            if(loggedInUser.isEnrolled()){
+                                if(choice == 2){
+                                    UI.printAllSubjects(Subject.subjects);
+                                    UI.addMenu(loggedInUser);
+                                }
+                                else if(choice == 3){
+                                    UI.changeMenu(loggedInUser);
+                                }
+                                else if(choice == 4){
+                                    UI.removeMenu(loggedInUser);
+                                }
+                                else if(choice == 5){
+                                    choice = UI.submitMenu();
+                                    if(choice == 1){
+                                        loggedInUser.setSubmitStatus(true);
+                                        break;
+                                    }
+                                }
+                            }
+                            else{
+                                UI.printError("You haven't enrolled yet!");
+                            }
                         }
                         else
-                            UI.printError("You have enrolled! If you want to add subject, please use Add menu");
+                            break;
                     }
-                    else if(choice == 2){
-                        UI.printAllSubjects(Subject.subjects);
-                        UI.addMenu(loggedInUser);
-
-                    }
-                    else if(choice == 3){
-                        UI.changeMenu(loggedInUser);
-                    }
-                    else if (choice == 0)
-                        break;
                 }
-
             }
         }
 

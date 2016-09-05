@@ -63,8 +63,11 @@ class UI {
             validLogin = true;
             printStudentBar();
 
-            System.out.println("Please enter student ID, name, and surname");
+            System.out.println("Please enter student ID, name, and surname or type \"Back\" to go back");
             System.out.print("Student ID: ");   id = input.next();
+            if(id.equals("Back")){
+                return new Student("00000000", "", "");
+            }
             System.out.print("Name: ");   name = input.next();
             System.out.print("Surname: ");   surname = input.next();
 
@@ -240,15 +243,17 @@ class UI {
 
     static void changeMenu(Student student){
         String findID, replaceID;
-        boolean validFind = true, validReplace = true;
+        boolean validFind, validReplace;
 
         printAllSubjects(student.getEnrolledSubject());
 
         do{
             validFind = true;
             System.out.println();
-            System.out.print("Please enter subject ID of which you want to change: ");
+            System.out.print("Please enter subject ID of which you want to change or type \"Cancel\" to cancel: ");
             findID = input.next();
+            if(findID.equals("Cancel"))
+                return;
             for (int i = 0; i < 8; i++)
                 if(!Character.isDigit(findID.charAt(i))) {
                     UI.printError("Invalid subject ID!");
@@ -307,6 +312,74 @@ class UI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    static void removeMenu(Student student){
+        String removeID;
+        boolean validRemove;
+
+        printAllSubjects(student.getEnrolledSubject());
+        do{
+            validRemove = true;
+            System.out.println();
+            System.out.print("Please enter subject ID of which you want to remove or type \"Cancel\" to cancel: ");
+            removeID = input.next();
+            if(removeID.equals("Cancel"))
+                return;
+            for (int i = 0; i < 8; i++)
+                if(!Character.isDigit(removeID.charAt(i))) {
+                    UI.printError("Invalid subject ID!");
+                    validRemove = false;
+                    break;
+                }
+            if(validRemove){
+                boolean found = false;
+                for(Subject.SubjectInfo i : student.getEnrolledSubject()){
+                    if(i.id.equals(removeID)) {
+                        if(student.getCredits() - i.credits < 9){
+                            UI.printError("Cannot remove! Your credits will less than 9");
+                            validRemove = false;
+                        }
+                        else{
+                            student.remove(i);
+                            validRemove = true;
+                        }
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found) {
+                    UI.printError("You have not enrolled this subject!");
+                    validRemove = false;
+                }
+            }
+
+        } while(!validRemove);
+
+        System.out.println("Remove complete! Press ENTER to continue");
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    static int submitMenu(){
+        printStudentBar();
+
+        System.out.println("Are you sure to do this? This action cannot be undone");
+        System.out.println("1. I'm sure!");
+        System.out.println("2. No");
+        System.out.print("Enter number (1 or 2): ");
+
+        choice = input.next().charAt(0);
+
+        if(!isValidChoice(choice, '2')){
+            printError("Invalid input! (Accept only 1 or 2)");
+            return -1;
+        }
+        return (choice - '0');
     }
 
     private static void clearConsole(){
