@@ -501,7 +501,7 @@ class UI {
     }
 
     private boolean isValidChoice(char choice, char maxBound){
-        return (!Character.isDigit(choice) || (choice > maxBound || choice < '0'));
+        return !(!Character.isDigit(choice) || (choice > maxBound || choice < '0'));
     }
 
     void printBestDimensionNotifier(){
