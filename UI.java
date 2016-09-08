@@ -58,7 +58,7 @@ class UI {
 
     Student printStudentLogin(){
         String id, name, surname;
-        boolean validLogin = true;
+        boolean validLogin;
         do{
             validLogin = true;
             printStudentBar();
@@ -501,10 +501,7 @@ class UI {
     }
 
     private boolean isValidChoice(char choice, char maxBound){
-        if(!Character.isDigit(choice) || (choice > maxBound || choice < '0'))
-            return false;
-
-        return true;
+        return (!Character.isDigit(choice) || (choice > maxBound || choice < '0'));
     }
 
     void printBestDimensionNotifier(){
@@ -519,7 +516,7 @@ class UI {
         waitEnterKey("try again");
     }
 
-    void waitEnterKey(String toWhat){
+    private void waitEnterKey(String toWhat){
         System.out.println("Press ENTER to "+ toWhat + "....");
         try {
             System.in.read();
