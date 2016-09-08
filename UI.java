@@ -125,6 +125,12 @@ class UI {
 
     }
 
+    void printSummaryEnroll(Student student){
+        printAllSubjects(student.getEnrolledSubject());
+        System.out.println("You have enrolled " + student.getEnrolledSubject().size() + " subjects and cost " + student.getCredits() +" credits.");
+        waitEnterKey("continue");
+    }
+
     int enrollMenu(Student student){
         System.out.println();
         System.out.println("Your current credits is " + student.getCredits() + "/23");
