@@ -9,7 +9,7 @@ class UI {
     private static Scanner input = new Scanner(System.in);
     private static char choice;
 
-    static int printMainMenu(){
+    int printMainMenu(){
         clearConsole();
         for(int i = 0; i < 80; i++)
             System.out.print("=");
@@ -40,7 +40,7 @@ class UI {
 
     }
 
-    private static void printStudentBar(){
+    private void printStudentBar(){
         clearConsole();
         for(int i = 0; i < 80; i++)
             System.out.print("=");
@@ -56,7 +56,7 @@ class UI {
         System.out.println();
     }
 
-    static Student printStudentLogin(){
+    Student printStudentLogin(){
         String id, name, surname;
         boolean validLogin = true;
         do{
@@ -86,7 +86,7 @@ class UI {
         return new Student(id, name, surname);
     }
 
-    static int printStudentMenu(String studentName){
+    int printStudentMenu(String studentName){
         printStudentBar();
 
         System.out.println("Hello " + studentName + "!, What do you want to do today?");
@@ -108,7 +108,7 @@ class UI {
 
     }
 
-    static void printAllSubjects(ArrayList<Subject.SubjectInfo> subject){
+    void printAllSubjects(ArrayList<Subject.SubjectInfo> subject){
         clearConsole();
         System.out.println("╔════════════╦═══════════════════════════════════════════════════════╦═════════╗");
         System.out.println("║ Subject ID ║                        Name                           ║ Credits ║");
@@ -125,7 +125,7 @@ class UI {
 
     }
 
-    static int enrollMenu(Student student){
+    int enrollMenu(Student student){
         System.out.println();
         System.out.println("Your current credits is " + student.getCredits() + "/23");
         System.out.print("Please enter subject ID you want to enroll, type \"See\" to see enrolled subject or \"Fin\" to finish : ");
@@ -134,22 +134,22 @@ class UI {
 
         if(command.equals("See"))
             if(student.getEnrolledSubject().size() == 0)
-                UI.printError("You haven't enrolled any subject yet!");
+                printError("You haven't enrolled any subject yet!");
             else
                 printAllSubjects(student.getEnrolledSubject());
         else if(command.equals("Fin"))
             if(student.getCredits() < 9)
-                UI.printError("Your current credits are less than 9. Please enroll more");
+                printError("Your current credits are less than 9. Please enroll more");
             else
                 return 1;
         else{
             boolean validID = true;
             if(command.length() != 8)
-                UI.printError("Invalid subject ID!");
+                printError("Invalid subject ID!");
             else{
                 for (int i = 0; i < 8; i++)
                     if(!Character.isDigit(command.charAt(i))) {
-                        UI.printError("Invalid subject ID!");
+                        printError("Invalid subject ID!");
                         validID = false;
                         break;
                 }
@@ -161,7 +161,7 @@ class UI {
                             boolean isEnrolled = false;
                             for(Subject.SubjectInfo j : student.getEnrolledSubject())
                                 if(j.id.equals(command)){
-                                    UI.printError("You have enrolled this subject!");
+                                    printError("You have enrolled this subject!");
                                     isEnrolled = true;
                                 }
                             if(!isEnrolled){
@@ -172,7 +172,7 @@ class UI {
 
                   }
                   if(!found)
-                      UI.printError("Subject not found!");
+                      printError("Subject not found!");
                 }
             }
 
@@ -181,7 +181,7 @@ class UI {
         return -1;
     }
 
-    static void addMenu(Student student){
+    void addMenu(Student student){
         boolean isFinished = false;
         do {
             System.out.println();
@@ -189,17 +189,17 @@ class UI {
             System.out.print("Please enter subject ID you want to add or type \"See\" to see enrolled subject or type \"Cancel\" to go back: ");
             String command = input.next();
             if(command.equals("See"))
-                UI.printAllSubjects(student.getEnrolledSubject());
+                printAllSubjects(student.getEnrolledSubject());
             else if(command.equals("Cancel"))
                 isFinished = true;
             else{
                 boolean validID = true;
                 if(command.length() != 8)
-                    UI.printError("Invalid subject ID!");
+                    printError("Invalid subject ID!");
                 else{
                     for (int i = 0; i < 8; i++)
                         if(!Character.isDigit(command.charAt(i))) {
-                            UI.printError("Invalid subject ID!");
+                            printError("Invalid subject ID!");
                             validID = false;
                             break;
                         }
@@ -211,7 +211,7 @@ class UI {
                                 boolean isEnrolled = false;
                                 for(Subject.SubjectInfo j : student.getEnrolledSubject())
                                     if(j.id.equals(command)){
-                                        UI.printError("You have enrolled this subject!");
+                                        printError("You have enrolled this subject!");
                                         isEnrolled = true;
                                     }
                                 if(!isEnrolled){
@@ -229,7 +229,7 @@ class UI {
 
                         }
                         if(!found)
-                            UI.printError("Subject not found!");
+                            printError("Subject not found!");
                     }
                 }
             }
@@ -241,7 +241,7 @@ class UI {
 
     }
 
-    static void changeMenu(Student student){
+    void changeMenu(Student student){
         String findID, replaceID;
         boolean validFind, validReplace;
 
@@ -256,7 +256,7 @@ class UI {
                 return;
             for (int i = 0; i < 8; i++)
                 if(!Character.isDigit(findID.charAt(i))) {
-                    UI.printError("Invalid subject ID!");
+                    printError("Invalid subject ID!");
                     validFind = false;
                     break;
                 }
@@ -271,7 +271,7 @@ class UI {
                     }
                 }
                 if(!found) {
-                    UI.printError("You have not enrolled this subject!");
+                    printError("You have not enrolled this subject!");
                     validFind = false;
                 }
             }
@@ -285,7 +285,7 @@ class UI {
             replaceID = input.next();
             for (int i = 0; i < 8; i++)
                 if(!Character.isDigit(replaceID.charAt(i))) {
-                    UI.printError("Invalid subject ID!");
+                    printError("Invalid subject ID!");
                     validReplace = false;
                     break;
                 }
@@ -300,7 +300,7 @@ class UI {
                     }
                 }
                 if(!found) {
-                    UI.printError("Subject not found!");
+                    printError("Subject not found!");
                     validReplace = false;
                 }
             }
@@ -314,7 +314,7 @@ class UI {
         }
     }
 
-    static void removeMenu(Student student){
+    void removeMenu(Student student){
         String removeID;
         boolean validRemove;
 
@@ -328,7 +328,7 @@ class UI {
                 return;
             for (int i = 0; i < 8; i++)
                 if(!Character.isDigit(removeID.charAt(i))) {
-                    UI.printError("Invalid subject ID!");
+                    printError("Invalid subject ID!");
                     validRemove = false;
                     break;
                 }
@@ -337,7 +337,7 @@ class UI {
                 for(Subject.SubjectInfo i : student.getEnrolledSubject()){
                     if(i.id.equals(removeID)) {
                         if(student.getCredits() - i.credits < 9){
-                            UI.printError("Cannot remove! Your credits will less than 9");
+                            printError("Cannot remove! Your credits will less than 9");
                             validRemove = false;
                         }
                         else{
@@ -349,7 +349,7 @@ class UI {
                     }
                 }
                 if(!found) {
-                    UI.printError("You have not enrolled this subject!");
+                    printError("You have not enrolled this subject!");
                     validRemove = false;
                 }
             }
@@ -365,7 +365,7 @@ class UI {
 
     }
 
-    static int submitMenu(){
+    int submitMenu(){
         printStudentBar();
 
         System.out.println("Are you sure to do this? This action cannot be undone");
@@ -382,7 +382,7 @@ class UI {
         return (choice - '0');
     }
 
-    private static void clearConsole(){
+    private void clearConsole(){
         try {
             final String os = System.getProperty("os.name");
 
@@ -396,14 +396,14 @@ class UI {
         }
     }
 
-    private static boolean isValidChoice(char choice, char maxBound){
+    private boolean isValidChoice(char choice, char maxBound){
         if(!Character.isDigit(choice) || (choice > maxBound || choice < '0'))
             return false;
 
         return true;
     }
 
-    static void printBestDimensionNotifier(){
+    void printBestDimensionNotifier(){
         System.out.println("This program run best on command line or terminal with 80*20 dimension");
         System.out.println("Press ENTER to continue....");
         try {
@@ -413,7 +413,7 @@ class UI {
         }
     }
 
-    static void printError(String errMessage){
+    void printError(String errMessage){
 //        TODO: find a way to clear command line on Windows
 
         System.out.println();

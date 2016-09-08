@@ -8,7 +8,7 @@ class Student {
     private ArrayList<Subject.SubjectInfo> enrolledSubject = new ArrayList<>();
     private boolean submitted, enrolled;
 
-
+    UI ui = new UI();
     Student(String... info) {
         this.id = info[0];
         this.name = info[1];
@@ -52,7 +52,7 @@ class Student {
     boolean enroll(Subject.SubjectInfo subject){
         int currentCredit = getCredits();
         if(currentCredit + subject.credits > 22){
-            UI.printError("Cannot enroll! (Maximum credits exceed)");
+            ui.printError("Cannot enroll! (Maximum credits exceed)");
             return false;
         }
 

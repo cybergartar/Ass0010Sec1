@@ -3,17 +3,17 @@ package Ass0010Sec1;
 import java.util.ArrayList;
 
 public class Main {
-
     public static void main(String[] args) {
+        UI ui = new UI();
         ArrayList<Student> students = new ArrayList<>();
         int choice;
 
-        UI.printBestDimensionNotifier();
+        ui.printBestDimensionNotifier();
 
         while(true){
 
             do{
-                choice = UI.printMainMenu();
+                choice = ui.printMainMenu();
             }while (choice < 0);
 
             if(choice == 0)
@@ -25,12 +25,12 @@ public class Main {
 
                 do{
                     successLogIn = true;
-                    loggedInUser = UI.printStudentLogin();
+                    loggedInUser = ui.printStudentLogin();
                     if(!students.isEmpty()){
                         for(Student i : students){
                             if(i.getId().equals(loggedInUser.getId())){
                                 if(i.isSubmitStatus()){
-                                    UI.printError("You cannot enroll twice!");
+                                    ui.printError("You cannot enroll twice!");
                                     successLogIn = false;
                                 }
                                 else{
@@ -47,34 +47,34 @@ public class Main {
                 if(!loggedInUser.getId().equals("00000000")){
                     while (true){
                         do{
-                            choice = UI.printStudentMenu(loggedInUser.getName());
+                            choice = ui.printStudentMenu(loggedInUser.getName());
                         }while(choice < 0);
 
                         if(choice == 1){
                             if(!loggedInUser.isEnrolled()){
-                                UI.printAllSubjects(Subject.subjects);
+                                ui.printAllSubjects(Subject.subjects);
                                 boolean finished;
                                 do{
-                                    finished = (UI.enrollMenu(loggedInUser) == 1);
+                                    finished = (ui.enrollMenu(loggedInUser) == 1);
                                 }while(!finished);
                             }
                             else
-                                UI.printError("You have enrolled! If you want to add subject, please use Add menu");
+                                ui.printError("You have enrolled! If you want to add subject, please use Add menu");
                         }
                         else if(choice != 0){
                             if(loggedInUser.isEnrolled()){
                                 if(choice == 2){
-                                    UI.printAllSubjects(Subject.subjects);
-                                    UI.addMenu(loggedInUser);
+                                    ui.printAllSubjects(Subject.subjects);
+                                    ui.addMenu(loggedInUser);
                                 }
                                 else if(choice == 3){
-                                    UI.changeMenu(loggedInUser);
+                                    ui.changeMenu(loggedInUser);
                                 }
                                 else if(choice == 4){
-                                    UI.removeMenu(loggedInUser);
+                                    ui.removeMenu(loggedInUser);
                                 }
                                 else if(choice == 5){
-                                    choice = UI.submitMenu();
+                                    choice = ui.submitMenu();
                                     if(choice == 1){
                                         loggedInUser.setSubmitStatus(true);
                                         break;
@@ -82,7 +82,7 @@ public class Main {
                                 }
                             }
                             else{
-                                UI.printError("You haven't enrolled yet!");
+                                ui.printError("You haven't enrolled yet!");
                             }
                         }
                         else
