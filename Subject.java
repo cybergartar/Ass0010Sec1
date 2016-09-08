@@ -4,13 +4,22 @@ import java.util.ArrayList;
 
 class Subject {
     static class SubjectInfo{
-        String id, name;
-        int credits;
+        final String id, name;
+        final int credits;
+        private char grade;
 
         private SubjectInfo(String id, String name, int credits) {
             this.id = id;
             this.name = name;
             this.credits = credits;
+        }
+
+        public char getGrade() {
+            return grade;
+        }
+
+        public void setGrade(char grade) {
+            this.grade = grade;
         }
     }
 
@@ -31,10 +40,10 @@ class Subject {
         add(new SubjectInfo("90201022", "ENGLISH FOR FURTHER STUDIES", 3));
         add(new SubjectInfo("90303005", "INTRODUCTION TO PHYSICAL EDUCATION", 3));
         add(new SubjectInfo("90303007", "FUNDAMENTAL RECREATION", 3));
-        add(new SubjectInfo("4", "FIRST AIDS", 3)); //90303008
-        add(new SubjectInfo("3", "PRINCIPLES OF WORK SAFETY", 3)); //90303009
-        add(new SubjectInfo("2", "LIBRARY USAGE AND INFORMATION", 3)); //90304001
-        add(new SubjectInfo("1", "THAI CIVILIZATION", 3)); //90305001
+        add(new SubjectInfo("90303008", "FIRST AIDS", 3));
+        add(new SubjectInfo("90303009", "PRINCIPLES OF WORK SAFETY", 3));
+        add(new SubjectInfo("90304001", "LIBRARY USAGE AND INFORMATION", 3));
+        add(new SubjectInfo("90305001", "THAI CIVILIZATION", 3));
     }};
 
 }
