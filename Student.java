@@ -38,7 +38,7 @@ class Student {
         this.credits = credits;
     }
 
-    boolean isSubmitStatus() {
+    boolean isSubmitted() {
         return submitted;
     }
 
@@ -50,7 +50,7 @@ class Student {
         return graded;
     }
 
-    public void setGraded(boolean graded) {
+    public void setGradeStatus(boolean graded) {
         this.graded = graded;
     }
 
