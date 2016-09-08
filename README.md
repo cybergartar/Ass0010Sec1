@@ -1,6 +1,6 @@
 # CE2D-Compro2-Assignment1
 GET REG!!!
 
-Windows: Run with runWindows.bat
+Please compile all files in Ass0010Sec1 first and come back here and exec
 
-Linux or Mac: Run with runUnix.sh (Don't forget to set permission to +x first!)
+"java -cp . Ass0010Sec1.Main"
