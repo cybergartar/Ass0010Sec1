@@ -9,7 +9,7 @@ class Student {
     private boolean submitted, enrolled, graded;
     private double grade;
 
-    UI ui = new UI();
+    private UI ui = new UI();
     Student(String... info) {
         this.id = info[0];
         this.name = info[1];
@@ -35,7 +35,7 @@ class Student {
         return credits;
     }
 
-    void setCredits(int credits) {
+    private void setCredits(int credits) {
         this.credits = credits;
     }
 
@@ -47,27 +47,27 @@ class Student {
         this.submitted = submitStatus;
     }
 
-    public boolean isGraded() {
+    boolean isGraded() {
         return graded;
     }
 
-    public void setGradeStatus(boolean graded) {
+    void setGradeStatus(boolean graded) {
         this.graded = graded;
     }
 
-    public boolean isEnrolled() {
+    boolean isEnrolled() {
         return enrolled;
     }
 
-    public void setEnrollStatus(boolean enrollStatus) {
+    void setEnrollStatus(boolean enrollStatus) {
         this.enrolled = enrollStatus;
     }
 
-    public double getGrade() {
+    double getGrade() {
         return grade;
     }
 
-    public void setGrade(double grade) {
+    void setGrade(double grade) {
         this.grade = grade;
     }
 
