@@ -192,12 +192,8 @@ class UI {
                             student.enroll(i);
                             student.setEnrollStatus(true);
                             isFinished = true;
-                            System.out.println("Add complete! Press ENTER to continue");
-                            try {
-                                System.in.read();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                            System.out.println("Add complete!");
+                            waitEnterKey("continue");
                         }
                     }
 
@@ -206,10 +202,7 @@ class UI {
                     printError("Subject not found or invalid subject ID!");
             }
 
-
         } while(!isFinished);
-
-
 
     }
 
@@ -263,12 +256,8 @@ class UI {
             }
         } while(!validReplace);
 
-        System.out.println("Change complete! Press ENTER to continue");
-        try {
-            System.in.read();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Change complete!");
+        waitEnterKey("continue");
     }
 
     void removeMenu(Student student){
@@ -306,12 +295,8 @@ class UI {
 
         } while(!validRemove);
 
-        System.out.println("Remove complete! Press ENTER to continue");
-        try {
-            System.in.read();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Remove complete!");
+        waitEnterKey("continue");
 
     }
 
@@ -355,20 +340,18 @@ class UI {
 
     void printBestDimensionNotifier(){
         System.out.println("This program run best on command line or terminal with 80*20 dimension");
-        System.out.println("Press ENTER to continue....");
-        try {
-            System.in.read();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        waitEnterKey("continue");
     }
 
     void printError(String errMessage){
 //        TODO: find a way to clear command line on Windows
-
         System.out.println();
         System.out.println(errMessage);
-        System.out.println("Press ENTER to try again....");
+        waitEnterKey("try again");
+    }
+
+    void waitEnterKey(String toWhat){
+        System.out.println("Press ENTER to "+ toWhat + "....");
         try {
             System.in.read();
         } catch (IOException e) {
