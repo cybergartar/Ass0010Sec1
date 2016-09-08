@@ -6,7 +6,7 @@ class Student {
     private String id, name, surname;
     private int credits;
     private ArrayList<Subject.SubjectInfo> enrolledSubject = new ArrayList<>();
-    private boolean submitted, enrolled;
+    private boolean submitted, enrolled, graded;
 
     UI ui = new UI();
     Student(String... info) {
@@ -15,6 +15,7 @@ class Student {
         this.surname = info[2];
         this.submitted = false;
         this.enrolled = false;
+        this.graded = false;
     }
 
     String getId() {
@@ -43,6 +44,14 @@ class Student {
 
     void setSubmitStatus(boolean submitStatus) {
         this.submitted = submitStatus;
+    }
+
+    public boolean isGraded() {
+        return graded;
+    }
+
+    public void setGraded(boolean graded) {
+        this.graded = graded;
     }
 
     ArrayList<Subject.SubjectInfo> getEnrolledSubject() {
