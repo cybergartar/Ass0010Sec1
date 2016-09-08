@@ -7,6 +7,7 @@ class Student {
     private int credits;
     private ArrayList<Subject.SubjectInfo> enrolledSubject = new ArrayList<>();
     private boolean submitted, enrolled, graded;
+    private double grade;
 
     UI ui = new UI();
     Student(String... info) {
@@ -54,6 +55,22 @@ class Student {
         this.graded = graded;
     }
 
+    public boolean isEnrolled() {
+        return enrolled;
+    }
+
+    public void setEnrollStatus(boolean enrollStatus) {
+        this.enrolled = enrollStatus;
+    }
+
+    public double getGrade() {
+        return grade;
+    }
+
+    public void setGrade(double grade) {
+        this.grade = grade;
+    }
+
     ArrayList<Subject.SubjectInfo> getEnrolledSubject() {
         return enrolledSubject;
     }
@@ -74,13 +91,5 @@ class Student {
         enrolledSubject.remove(subject);
         setCredits(getCredits() - subject.credits);
         return true;
-    }
-
-    public boolean isEnrolled() {
-        return enrolled;
-    }
-
-    public void setEnrollStatus(boolean enrollStatus) {
-        this.enrolled = enrollStatus;
     }
 }
