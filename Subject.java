@@ -14,11 +14,11 @@ class Subject {
             this.credits = credits;
         }
 
-        public char getGrade() {
+        char getGrade() {
             return grade;
         }
 
-        public void setGrade(char grade) {
+        void setGrade(char grade) {
             this.grade = grade;
         }
     }
