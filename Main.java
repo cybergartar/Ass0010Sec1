@@ -28,7 +28,7 @@ public class Main {
         }
     }
 
-    public static void studentMenu(UI ui, ArrayList<Student> students){
+    private static void studentMenu(UI ui, ArrayList<Student> students){
         int choice;
 
         boolean successLogIn;
@@ -103,7 +103,7 @@ public class Main {
         }
     }
 
-    public static void teacherMenu(UI ui, ArrayList<Student> students){
+    private static void teacherMenu(UI ui, ArrayList<Student> students){
         int choice, submittedStudent = 0;
         for(Student s : students){
             if(s.isSubmitted())
