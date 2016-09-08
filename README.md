@@ -1,7 +1,9 @@
 # CE2D Compro2 Assignment1
 
 Author     : Kamonnop Arunrat
+
 Student ID : 58010010
+
 Sec        : 1
 
 GET REG!!!
