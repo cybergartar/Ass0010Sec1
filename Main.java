@@ -23,7 +23,7 @@ public class Main {
                 studentMenu(ui, students);
             }
             else{
-
+                teacherMenu(ui, students);
             }
                 //TODO: handle teacher menu
         }
@@ -35,10 +35,11 @@ public class Main {
     public static void studentMenu(UI ui, ArrayList<Student> students){
         int choice;
 
-        boolean successLogIn, found = false;
+        boolean successLogIn;
         Student loggedInUser;
 
         do{
+            boolean found = false;
             successLogIn = true;
             loggedInUser = ui.printStudentLogin();
             if(loggedInUser.getId().equals("00000000"))
@@ -46,7 +47,7 @@ public class Main {
             if(!students.isEmpty()){
                 for(Student i : students){
                     if(i.getId().equals(loggedInUser.getId())){
-                        if(i.isSubmitStatus()){
+                        if(i.isSubmitted()){
                             ui.printError("You cannot enroll twice!");
                             successLogIn = false;
                         }
@@ -73,7 +74,6 @@ public class Main {
                     do{
                         finished = (ui.enrollMenu(loggedInUser) == 1);
                     }while(!finished);
-                    ui.printSummaryEnroll(loggedInUser);
                 }
                 else
                     ui.printError("You have enrolled! If you want to add subject, please use Add menu");
@@ -83,15 +83,12 @@ public class Main {
                     if(choice == 2){
                         ui.printAllSubjects(Subject.subjects);
                         ui.addMenu(loggedInUser);
-                        ui.printSummaryEnroll(loggedInUser);
                     }
                     else if(choice == 3){
                         ui.changeMenu(loggedInUser);
-                        ui.printSummaryEnroll(loggedInUser);
                     }
                     else if(choice == 4){
                         ui.removeMenu(loggedInUser);
-                        ui.printSummaryEnroll(loggedInUser);
                     }
                     else if(choice == 5){
                         choice = ui.submitMenu();
@@ -107,6 +104,30 @@ public class Main {
             }
             else
                 break;
+        }
+    }
+
+    public static void teacherMenu(UI ui, ArrayList<Student> students){
+        int choice;
+
+//        if(students.size() == 0){
+//            ui.printError("No student have enrolled!");
+//            return;
+//        }
+
+        while(true){
+            do{
+                choice = ui.printTeacherMenu();
+            }while(choice < 0);
+
+            if(choice == 0)
+                return;
+
+            if(choice == 1){
+                do{
+                    choice = ui.gradingMenu(students);
+                }while(choice != 1);
+            }
         }
     }
 

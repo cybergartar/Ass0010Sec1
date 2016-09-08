@@ -108,6 +108,36 @@ class UI {
 
     }
 
+    int printTeacherMenu(){
+        clearConsole();
+        for(int i = 0; i < 80; i++)
+            System.out.print("=");
+        System.out.println();
+
+        System.out.println("|_   _|__  __ _  ___| |__   ___ _ __ ");
+        System.out.println("  | |/ _ \\/ _` |/ __| '_ \\ / _ \\ '__|");
+        System.out.println("  | |  __/ (_| | (__| | | |  __/ | ");
+        System.out.println("  |_|\\___|\\__,_|\\___|_| |_|\\___|_|");
+
+        for(int i = 0; i < 80; i++)
+            System.out.print("=");
+        System.out.println();
+
+        System.out.println("Hello Teacher!, What do you want to do today?");
+        System.out.println("1. Grading");
+        System.out.println("2. Print grade summary");
+        System.out.println("0. Return to main menu");
+        System.out.print("Enter number (0-2): ");
+
+        choice = input.next().charAt(0);
+
+        if(!isValidChoice(choice, '2')){
+            printError("Invalid input! (Accept only 0 to 2)");
+            return -1;
+        }
+        return (choice - '0');
+    }
+
     void printAllSubjects(ArrayList<Subject.SubjectInfo> subject){
         clearConsole();
         System.out.println("╔════════════╦═══════════════════════════════════════════════════════╦═════════╗");
@@ -125,10 +155,29 @@ class UI {
 
     }
 
-    void printSummaryEnroll(Student student){
+    private void printSummaryEnroll(Student student){
         printAllSubjects(student.getEnrolledSubject());
         System.out.println("You have enrolled " + student.getEnrolledSubject().size() + " subjects and cost " + student.getCredits() +" credits.");
         waitEnterKey("continue");
+    }
+
+    void printStudentList(ArrayList<Student> students){
+        clearConsole();
+        System.out.println("╔════════════╦═══════════════════════════════════════════════════════╦═════════╗");
+        System.out.println("║ Student ID ║                   Name - Surname                      ║  Grade  ║");
+        System.out.println("╠════════════╬═══════════════════════════════════════════════════════╬═════════╣");
+
+        for(Student s : students){
+            System.out.print("║  " + s.getId() + "  ║ " + s.getName() + " " + s.getSurname());
+            for(int j = 0; j < 54-(s.getName().length() + s.getSurname().length() + 1); j++)
+                System.out.print(" ");
+            if(s.isGraded())
+                System.out.printf("║   %.2f  ║\n", s.getGrade());
+            else
+                System.out.println("║   N/A   ║");
+        }
+
+        System.out.println("╚════════════╩═══════════════════════════════════════════════════════╩═════════╝");
     }
 
     int enrollMenu(Student student){
@@ -146,8 +195,10 @@ class UI {
         else if(command.equals("Fin"))
             if(student.getCredits() < 9)
                 printError("Your current credits are less than 9. Please enroll more");
-            else
+            else{
+                printSummaryEnroll(student);
                 return 1;
+            }
         else{
             boolean found = false;
             for(Subject.SubjectInfo i : Subject.subjects){
@@ -210,6 +261,7 @@ class UI {
 
         } while(!isFinished);
 
+        printSummaryEnroll(student);
     }
 
     void changeMenu(Student student){
@@ -264,6 +316,8 @@ class UI {
 
         System.out.println("Change complete!");
         waitEnterKey("continue");
+        printSummaryEnroll(student);
+
     }
 
     void removeMenu(Student student){
@@ -303,6 +357,7 @@ class UI {
 
         System.out.println("Remove complete!");
         waitEnterKey("continue");
+        printSummaryEnroll(student);
 
     }
 
@@ -321,6 +376,36 @@ class UI {
             return -1;
         }
         return (choice - '0');
+    }
+
+    int gradingMenu(ArrayList<Student> students){
+        printStudentList(students);
+        System.out.print("Please enter student ID of whom you want to grade or type \"Cancel\" to go back: ");
+        String command = input.next();
+        if(command.equals("Cancel"))
+            return 1;
+
+        boolean found = false;
+        for(Student s : students){
+            if(s.getId().equals(command)){
+                found = true;
+                if(!s.isGraded()){
+                    gradeTable(s);
+                }
+                else{
+                    printError("You have graded this student!");
+                    return -1;
+                }
+            }
+
+        }
+        if(!found)
+            printError("No student with that ID or invalid student ID!");
+        return -1;
+    }
+
+    private void gradeTable(Student student){
+
     }
 
     private void clearConsole(){
