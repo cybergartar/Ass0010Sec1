@@ -140,18 +140,18 @@ class UI {
 
     void printAllSubjects(ArrayList<Subject.SubjectInfo> subject){
         clearConsole();
-        System.out.println("╔════════════╦═══════════════════════════════════════════════════════╦═════════╗");
-        System.out.println("║ Subject ID ║                        Name                           ║ Credits ║");
-        System.out.println("╠════════════╬═══════════════════════════════════════════════════════╬═════════╣");
+        System.out.println("+------------+-------------------------------------------------------+---------+");
+        System.out.println("| Subject ID |                        Name                           | Credits |");
+        System.out.println("+------------+-------------------------------------------------------+---------+");
 
         for(Subject.SubjectInfo i : subject){
-            System.out.print("║  " + i.id + "  ║ " + i.name);
+            System.out.print("|  " + i.id + "  | " + i.name);
             for(int j = 0; j < 54-i.name.length(); j++)
                 System.out.print(" ");
-            System.out.println("║    " + i.credits + "    ║");
+            System.out.println("|    " + i.credits + "    |");
         }
 
-        System.out.println("╚════════════╩═══════════════════════════════════════════════════════╩═════════╝");
+        System.out.println("+------------+-------------------------------------------------------+---------+");
 
     }
 
@@ -163,23 +163,23 @@ class UI {
 
     private void printStudentList(ArrayList<Student> students){
         clearConsole();
-        System.out.println("╔════════════╦═══════════════════════════════════════════════════════╦═════════╗");
-        System.out.println("║ Student ID ║                   Name - Surname                      ║  Grade  ║");
-        System.out.println("╠════════════╬═══════════════════════════════════════════════════════╬═════════╣");
+        System.out.println("+------------+-------------------------------------------------------+---------+");
+        System.out.println("| Student ID |                   Name - Surname                      |  Grade  |");
+        System.out.println("+------------+-------------------------------------------------------+---------+");
 
         for(Student s : students){
             if(s.isSubmitted()){
-                System.out.print("║  " + s.getId() + "  ║ " + s.getName() + " " + s.getSurname());
+                System.out.print("|  " + s.getId() + "  | " + s.getName() + " " + s.getSurname());
                 for(int j = 0; j < 54-(s.getName().length() + s.getSurname().length() + 1); j++)
                     System.out.print(" ");
                 if(s.isGraded())
-                    System.out.printf("║   %.2f  ║\n", s.getGrade());
+                    System.out.printf("|   %.2f  |\n", s.getGrade());
                 else
-                    System.out.println("║   N/A   ║");
+                    System.out.println("|   N/A   |");
             }
         }
 
-        System.out.println("╚════════════╩═══════════════════════════════════════════════════════╩═════════╝");
+        System.out.println("+------------+-------------------------------------------------------+---------+");
     }
 
     int enrollMenu(Student student){
@@ -412,18 +412,18 @@ class UI {
         double grade = 0;
 
         clearConsole();
-        System.out.println("╔════════════╦═══════════════════════════════════════════════════════╦═════════╗");
-        System.out.println("║ Subject ID ║                        Name                           ║  Grade  ║");
-        System.out.println("╠════════════╬═══════════════════════════════════════════════════════╬═════════╣");
+        System.out.println("+------------+-------------------------------------------------------+---------+");
+        System.out.println("| Subject ID |                        Name                           |  Grade  |");
+        System.out.println("+------------+-------------------------------------------------------+---------+");
 
         for(Subject.SubjectInfo i : student.getEnrolledSubject()){
             boolean validGrade;
             do{
                 validGrade = true;
-                System.out.print("║  " + i.id + "  ║ " + i.name);
+                System.out.print("|  " + i.id + "  | " + i.name);
                 for(int j = 0; j < 54-i.name.length(); j++)
                     System.out.print(" ");
-                System.out.print("║    ");
+                System.out.print("|    ");
                 char gradeChar = Character.toUpperCase(input.next().charAt(0));
                 if(gradeChar < 'A' || gradeChar > 'F'){
                     printError("Invalid grade. Accepts only A, B, C, D or F");
@@ -442,7 +442,7 @@ class UI {
             }while(!validGrade);
         }
 
-        System.out.println("╚════════════╩═══════════════════════════════════════════════════════╩═════════╝");
+        System.out.println("+------------+-------------------------------------------------------+---------+");
 
         student.setGrade(grade / student.getEnrolledSubject().size());
         student.setGradeStatus(true);
@@ -461,17 +461,17 @@ class UI {
                 found = true;
                 if(s.isGraded()){
                     clearConsole();
-                    System.out.println("╔════════════╦═══════════════════════════════════════════════════════╦═════════╗");
-                    System.out.println("║ Subject ID ║                        Name                           ║  Grade  ║");
-                    System.out.println("╠════════════╬═══════════════════════════════════════════════════════╬═════════╣");
+                    System.out.println("+------------+-------------------------------------------------------+---------+");
+                    System.out.println("| Subject ID |                        Name                           |  Grade  |");
+                    System.out.println("+------------+-------------------------------------------------------+---------+");
 
                     for(Subject.SubjectInfo i : s.getEnrolledSubject()){
-                        System.out.print("║  " + i.id + "  ║ " + i.name);
+                        System.out.print("|  " + i.id + "  | " + i.name);
                         for(int j = 0; j < 54-i.name.length(); j++)
                             System.out.print(" ");
-                        System.out.println("║    " + i.getGrade() + "    ║");
+                        System.out.println("|    " + i.getGrade() + "    |");
                     }
-                    System.out.println("╚════════════╩═══════════════════════════════════════════════════════╩═════════╝");
+                    System.out.println("+------------+-------------------------------------------------------+---------+");
                     System.out.println("Student " + s.getId() + " " + s.getName() + " " + s.getSurname() + " has " + s.getGrade() + " points.");
                     waitEnterKey("continue");
                 }
