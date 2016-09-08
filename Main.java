@@ -25,11 +25,7 @@ public class Main {
             else{
                 teacherMenu(ui, students);
             }
-                //TODO: handle teacher menu
         }
-
-
-
     }
 
     public static void studentMenu(UI ui, ArrayList<Student> students){
@@ -108,12 +104,16 @@ public class Main {
     }
 
     public static void teacherMenu(UI ui, ArrayList<Student> students){
-        int choice;
+        int choice, submittedStudent = 0;
+        for(Student s : students){
+            if(s.isSubmitted())
+                submittedStudent++;
+        }
 
-//        if(students.size() == 0){
-//            ui.printError("No student have enrolled!");
-//            return;
-//        }
+        if(submittedStudent == 0){
+            ui.printError("No student has submitted!");
+            return;
+        }
 
         while(true){
             do{
@@ -128,8 +128,12 @@ public class Main {
                     choice = ui.gradingMenu(students);
                 }while(choice != 1);
             }
+            else if(choice == 2){
+                do{
+                    choice = ui.gradeSummaryMenu(students);
+                }while(choice != 1);
+            }
         }
     }
-
 
 }
