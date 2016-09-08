@@ -143,40 +143,25 @@ class UI {
             else
                 return 1;
         else{
-            boolean validID = true;
-            if(command.length() != 8)
-                printError("Invalid subject ID!");
-            else{
-                for (int i = 0; i < 8; i++)
-                    if(!Character.isDigit(command.charAt(i))) {
-                        printError("Invalid subject ID!");
-                        validID = false;
-                        break;
-                }
-                if(validID){
-                    boolean found = false;
-                    for(Subject.SubjectInfo i : Subject.subjects){
-                        if(i.id.equals(command)){
-                            found = true;
-                            boolean isEnrolled = false;
-                            for(Subject.SubjectInfo j : student.getEnrolledSubject())
-                                if(j.id.equals(command)){
-                                    printError("You have enrolled this subject!");
-                                    isEnrolled = true;
-                                }
-                            if(!isEnrolled){
-                                student.enroll(i);
-                                student.setEnrollStatus(true);
-                            }
+            boolean found = false;
+            for(Subject.SubjectInfo i : Subject.subjects){
+                if(i.id.equals(command)){
+                    found = true;
+                    boolean isEnrolled = false;
+                    for(Subject.SubjectInfo j : student.getEnrolledSubject())
+                        if(j.id.equals(command)){
+                            printError("You have enrolled this subject!");
+                            isEnrolled = true;
                         }
-
-                  }
-                  if(!found)
-                      printError("Subject not found!");
+                    if(!isEnrolled){
+                        student.enroll(i);
+                        student.setEnrollStatus(true);
+                    }
                 }
+
             }
-
-
+            if(!found)
+                printError("Subject not found or invalid subject ID!");
         }
         return -1;
     }
@@ -193,45 +178,32 @@ class UI {
             else if(command.equals("Cancel"))
                 isFinished = true;
             else{
-                boolean validID = true;
-                if(command.length() != 8)
-                    printError("Invalid subject ID!");
-                else{
-                    for (int i = 0; i < 8; i++)
-                        if(!Character.isDigit(command.charAt(i))) {
-                            printError("Invalid subject ID!");
-                            validID = false;
-                            break;
-                        }
-                    if(validID){
-                        boolean found = false;
-                        for(Subject.SubjectInfo i : Subject.subjects){
-                            if(i.id.equals(command)){
-                                found = true;
-                                boolean isEnrolled = false;
-                                for(Subject.SubjectInfo j : student.getEnrolledSubject())
-                                    if(j.id.equals(command)){
-                                        printError("You have enrolled this subject!");
-                                        isEnrolled = true;
-                                    }
-                                if(!isEnrolled){
-                                    student.enroll(i);
-                                    student.setEnrollStatus(true);
-                                    isFinished = true;
-                                    System.out.println("Add complete! Press ENTER to continue");
-                                    try {
-                                        System.in.read();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
+                boolean found = false;
+                for(Subject.SubjectInfo i : Subject.subjects){
+                    if(i.id.equals(command)){
+                        found = true;
+                        boolean isEnrolled = false;
+                        for(Subject.SubjectInfo j : student.getEnrolledSubject())
+                            if(j.id.equals(command)){
+                                printError("You have enrolled this subject!");
+                                isEnrolled = true;
                             }
-
+                        if(!isEnrolled){
+                            student.enroll(i);
+                            student.setEnrollStatus(true);
+                            isFinished = true;
+                            System.out.println("Add complete! Press ENTER to continue");
+                            try {
+                                System.in.read();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
-                        if(!found)
-                            printError("Subject not found!");
                     }
+
                 }
+                if(!found)
+                    printError("Subject not found or invalid subject ID!");
             }
 
 
@@ -254,26 +226,19 @@ class UI {
             findID = input.next();
             if(findID.equals("Cancel"))
                 return;
-            for (int i = 0; i < 8; i++)
-                if(!Character.isDigit(findID.charAt(i))) {
-                    printError("Invalid subject ID!");
-                    validFind = false;
+
+            boolean found = false;
+            for(Subject.SubjectInfo i : student.getEnrolledSubject()){
+                if(i.id.equals(findID)) {
+                    student.remove(i);
+                    found = true;
+                    validFind = true;
                     break;
                 }
-            if(validFind){
-                boolean found = false;
-                for(Subject.SubjectInfo i : student.getEnrolledSubject()){
-                    if(i.id.equals(findID)) {
-                        student.remove(i);
-                        found = true;
-                        validFind = true;
-                        break;
-                    }
-                }
-                if(!found) {
-                    printError("You have not enrolled this subject!");
-                    validFind = false;
-                }
+            }
+            if(!found) {
+                printError("You have not enrolled this subject or invalid subject ID!");
+                validFind = false;
             }
 
         } while(!validFind);
@@ -283,26 +248,18 @@ class UI {
             System.out.println();
             System.out.print("Please enter subject ID of which you want to change to: ");
             replaceID = input.next();
-            for (int i = 0; i < 8; i++)
-                if(!Character.isDigit(replaceID.charAt(i))) {
-                    printError("Invalid subject ID!");
-                    validReplace = false;
+            boolean found = false;
+            for(Subject.SubjectInfo i : Subject.subjects){
+                if(i.id.equals(replaceID)) {
+                    student.enroll(i);
+                    found = true;
+                    validReplace = true;
                     break;
                 }
-            if(validReplace){
-                boolean found = false;
-                for(Subject.SubjectInfo i : Subject.subjects){
-                    if(i.id.equals(replaceID)) {
-                        student.enroll(i);
-                        found = true;
-                        validReplace = true;
-                        break;
-                    }
-                }
-                if(!found) {
-                    printError("Subject not found!");
-                    validReplace = false;
-                }
+            }
+            if(!found) {
+                printError("Subject not found or invalid subject ID!");
+                validReplace = false;
             }
         } while(!validReplace);
 
@@ -326,32 +283,25 @@ class UI {
             removeID = input.next();
             if(removeID.equals("Cancel"))
                 return;
-            for (int i = 0; i < 8; i++)
-                if(!Character.isDigit(removeID.charAt(i))) {
-                    printError("Invalid subject ID!");
-                    validRemove = false;
+
+            boolean found = false;
+            for(Subject.SubjectInfo i : student.getEnrolledSubject()){
+                if(i.id.equals(removeID)) {
+                    if(student.getCredits() - i.credits < 9){
+                        printError("Cannot remove! Your credits will less than 9");
+                        validRemove = false;
+                    }
+                    else{
+                        student.remove(i);
+                        validRemove = true;
+                    }
+                    found = true;
                     break;
                 }
-            if(validRemove){
-                boolean found = false;
-                for(Subject.SubjectInfo i : student.getEnrolledSubject()){
-                    if(i.id.equals(removeID)) {
-                        if(student.getCredits() - i.credits < 9){
-                            printError("Cannot remove! Your credits will less than 9");
-                            validRemove = false;
-                        }
-                        else{
-                            student.remove(i);
-                            validRemove = true;
-                        }
-                        found = true;
-                        break;
-                    }
-                }
-                if(!found) {
-                    printError("You have not enrolled this subject!");
-                    validRemove = false;
-                }
+            }
+            if(!found) {
+                printError("You have not enrolled this subject or invalid subject ID!");
+                validRemove = false;
             }
 
         } while(!validRemove);
