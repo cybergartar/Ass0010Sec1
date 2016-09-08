@@ -161,20 +161,22 @@ class UI {
         waitEnterKey("continue");
     }
 
-    void printStudentList(ArrayList<Student> students){
+    private void printStudentList(ArrayList<Student> students){
         clearConsole();
         System.out.println("╔════════════╦═══════════════════════════════════════════════════════╦═════════╗");
         System.out.println("║ Student ID ║                   Name - Surname                      ║  Grade  ║");
         System.out.println("╠════════════╬═══════════════════════════════════════════════════════╬═════════╣");
 
         for(Student s : students){
-            System.out.print("║  " + s.getId() + "  ║ " + s.getName() + " " + s.getSurname());
-            for(int j = 0; j < 54-(s.getName().length() + s.getSurname().length() + 1); j++)
-                System.out.print(" ");
-            if(s.isGraded())
-                System.out.printf("║   %.2f  ║\n", s.getGrade());
-            else
-                System.out.println("║   N/A   ║");
+            if(s.isSubmitted()){
+                System.out.print("║  " + s.getId() + "  ║ " + s.getName() + " " + s.getSurname());
+                for(int j = 0; j < 54-(s.getName().length() + s.getSurname().length() + 1); j++)
+                    System.out.print(" ");
+                if(s.isGraded())
+                    System.out.printf("║   %.2f  ║\n", s.getGrade());
+                else
+                    System.out.println("║   N/A   ║");
+            }
         }
 
         System.out.println("╚════════════╩═══════════════════════════════════════════════════════╩═════════╝");
@@ -387,10 +389,12 @@ class UI {
 
         boolean found = false;
         for(Student s : students){
-            if(s.getId().equals(command)){
+            if(s.isSubmitted() && s.getId().equals(command)){
                 found = true;
                 if(!s.isGraded()){
                     gradeTable(s);
+                    System.out.println("Student " + s.getId() + " " + s.getName() + " " + s.getSurname() + " is now graded with " + s.getGrade() + " points.");
+                    waitEnterKey("continue");
                 }
                 else{
                     printError("You have graded this student!");
@@ -405,7 +409,81 @@ class UI {
     }
 
     private void gradeTable(Student student){
+        double grade = 0;
 
+        clearConsole();
+        System.out.println("╔════════════╦═══════════════════════════════════════════════════════╦═════════╗");
+        System.out.println("║ Subject ID ║                        Name                           ║  Grade  ║");
+        System.out.println("╠════════════╬═══════════════════════════════════════════════════════╬═════════╣");
+
+        for(Subject.SubjectInfo i : student.getEnrolledSubject()){
+            boolean validGrade;
+            do{
+                validGrade = true;
+                System.out.print("║  " + i.id + "  ║ " + i.name);
+                for(int j = 0; j < 54-i.name.length(); j++)
+                    System.out.print(" ");
+                System.out.print("║    ");
+                char gradeChar = Character.toUpperCase(input.next().charAt(0));
+                if(gradeChar < 'A' || gradeChar > 'F'){
+                    printError("Invalid grade. Accepts only A, B, C, D or F");
+                    validGrade = false;
+                }
+                else{
+                    switch (gradeChar){
+                        case 'A': grade += 4.00; break;
+                        case 'B': grade += 3.00; break;
+                        case 'C': grade += 2.00; break;
+                        case 'D': grade += 1.00; break;
+                        case 'F': grade += 0.00; break;
+                    }
+                    i.setGrade(gradeChar);
+                }
+            }while(!validGrade);
+        }
+
+        System.out.println("╚════════════╩═══════════════════════════════════════════════════════╩═════════╝");
+
+        student.setGrade(grade / student.getEnrolledSubject().size());
+        student.setGradeStatus(true);
+    }
+
+    int gradeSummaryMenu(ArrayList<Student> students){
+        printStudentList(students);
+        System.out.print("Please enter student ID of whom you want to see detail or type \"Back\" to go back: ");
+        String command = input.next();
+        if(command.equals("Back"))
+            return 1;
+
+        boolean found = false;
+        for(Student s : students){
+            if(s.isSubmitted() && s.getId().equals(command)){
+                found = true;
+                if(s.isGraded()){
+                    clearConsole();
+                    System.out.println("╔════════════╦═══════════════════════════════════════════════════════╦═════════╗");
+                    System.out.println("║ Subject ID ║                        Name                           ║  Grade  ║");
+                    System.out.println("╠════════════╬═══════════════════════════════════════════════════════╬═════════╣");
+
+                    for(Subject.SubjectInfo i : s.getEnrolledSubject()){
+                        System.out.print("║  " + i.id + "  ║ " + i.name);
+                        for(int j = 0; j < 54-i.name.length(); j++)
+                            System.out.print(" ");
+                        System.out.println("║    " + i.getGrade() + "    ║");
+                    }
+                    System.out.println("╚════════════╩═══════════════════════════════════════════════════════╩═════════╝");
+                    System.out.println("Student " + s.getId() + " " + s.getName() + " " + s.getSurname() + " has " + s.getGrade() + " points.");
+                    waitEnterKey("continue");
+                }
+                else{
+                    printError("You haven't graded this student yet!");
+                    return -1;
+                }
+            }
+        }
+        if(!found)
+            printError("No student with that ID or invalid student ID!");
+        return -1;
     }
 
     private void clearConsole(){
