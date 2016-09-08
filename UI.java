@@ -1,6 +1,7 @@
 package Ass0010Sec1;
 
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -491,11 +492,14 @@ class UI {
             final String os = System.getProperty("os.name");
 
             if(os.contains("Windows"))
-                Runtime.getRuntime().exec("cls");
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
             else
                 System.out.print("\033[H\033[2J");
-                    System.out.flush();
+            System.out.flush();
+
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -510,7 +514,6 @@ class UI {
     }
 
     void printError(String errMessage){
-//        TODO: find a way to clear command line on Windows
         System.out.println();
         System.out.println(errMessage);
         waitEnterKey("try again");
