@@ -50,6 +50,7 @@ public class Main {
                     else{
                         loggedInUser = i;
                     }
+                    break;
                 }
             }
             if(!found) // if logged in use not in student list
