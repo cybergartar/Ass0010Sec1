@@ -422,7 +422,7 @@ class UI {
                     System.out.print(" ");
                 System.out.print("|    ");
                 char gradeChar = Character.toUpperCase(input.next().charAt(0));
-                if(gradeChar < 'A' || gradeChar > 'F'){ // validate input
+                if(gradeChar == 'E' || gradeChar < 'A' || gradeChar > 'F'){ // validate input
                     printError("Invalid grade. Accepts only A, B, C, D or F");
                     validGrade = false;
                 }
