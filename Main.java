@@ -8,21 +8,21 @@ public class Main {
         ArrayList<Student> students = new ArrayList<>();
         int choice;
 
-        ui.printBestDimensionNotifier();
+        ui.printBestDimensionNotifier(); // print best dimension console
 
-        while(true){
+        while(true){ // keep doing unless user exit
 
             do{
-                choice = ui.printMainMenu();
+                choice = ui.printMainMenu(); // get choice user input from main menu
             }while (choice < 0);
 
-            if(choice == 0)
+            if(choice == 0) // exit
                 System.exit(0);
 
-            if(choice == 1){
+            if(choice == 1){ // navigate to student menu
                 studentMenu(ui, students);
             }
-            else{
+            else{ // navigate to teacher menu
                 teacherMenu(ui, students);
             }
         }
@@ -37,13 +37,13 @@ public class Main {
         do{
             boolean found = false;
             successLogIn = true;
-            loggedInUser = ui.printStudentLogin();
-            if(loggedInUser.getId().equals("00000000"))
+            loggedInUser = ui.printStudentLogin(); // get user from student login
+            if(loggedInUser == null) // if returned object is null
                 return;
             if(!students.isEmpty()){
-                for(Student i : students){
-                    if(i.getId().equals(loggedInUser.getId())){
-                        if(i.isSubmitted()){
+                for(Student i : students){ // iterate through students list
+                    if(i.getId().equals(loggedInUser.getId())){ // if logged in user id match one in list
+                        if(i.isSubmitted()){ // if he submitted enroll, he can't use this menu again
                             ui.printError("You cannot enroll twice!");
                             successLogIn = false;
                         }
@@ -54,39 +54,39 @@ public class Main {
                     }
                 }
             }
-            if(!found)
-                students.add(loggedInUser);
+            if(!found) // if logged in use not in student list
+                students.add(loggedInUser); // add him to list
         }while(!successLogIn);
 
-        while (true){
+        while (true){ // do until go back to main menu
             do{
                 choice = ui.printStudentMenu(loggedInUser.getName());
             }while(choice < 0);
 
-            if(choice == 1){
-                if(!loggedInUser.isEnrolled()){
+            if(choice == 1){ // if student choose enroll menu
+                if(!loggedInUser.isEnrolled()){ // if student hasn't enrolled
                     ui.printAllSubjects(Subject.subjects);
                     boolean finished;
-                    do{
+                    do{ // call enroll method
                         finished = (ui.enrollMenu(loggedInUser) == 1);
                     }while(!finished);
                 }
-                else
+                else // print error cannot enroll again
                     ui.printError("You have enrolled! If you want to add subject, please use Add menu");
             }
             else if(choice != 0){
                 if(loggedInUser.isEnrolled()){
-                    if(choice == 2){
+                    if(choice == 2){ // add method
                         ui.printAllSubjects(Subject.subjects);
                         ui.addMenu(loggedInUser);
                     }
-                    else if(choice == 3){
+                    else if(choice == 3){ // change method
                         ui.changeMenu(loggedInUser);
                     }
-                    else if(choice == 4){
+                    else if(choice == 4){ // remove method
                         ui.removeMenu(loggedInUser);
                     }
-                    else if(choice == 5){
+                    else if(choice == 5){ // submit confirmation
                         choice = ui.submitMenu();
                         if(choice == 1){
                             loggedInUser.setSubmitStatus(true);
@@ -94,7 +94,7 @@ public class Main {
                         }
                     }
                 }
-                else{
+                else{ // above menu will be available after enrolled
                     ui.printError("You haven't enrolled yet!");
                 }
             }
@@ -105,12 +105,12 @@ public class Main {
 
     private static void teacherMenu(UI ui, ArrayList<Student> students){
         int choice, submittedStudent = 0;
-        for(Student s : students){
+        for(Student s : students){ // check number of submitted student
             if(s.isSubmitted())
                 submittedStudent++;
         }
 
-        if(submittedStudent == 0){
+        if(submittedStudent == 0){ // can't use teacher menu if no student enrolled
             ui.printError("No student has submitted!");
             return;
         }
@@ -123,12 +123,12 @@ public class Main {
             if(choice == 0)
                 return;
 
-            if(choice == 1){
+            if(choice == 1){ // grading manu
                 do{
                     choice = ui.gradingMenu(students);
                 }while(choice != 1);
             }
-            else if(choice == 2){
+            else if(choice == 2){ // display all student menu
                 do{
                     choice = ui.gradeSummaryMenu(students);
                 }while(choice != 1);

@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 class Subject {
     static class SubjectInfo{
-        final String id, name;
-        final int credits;
-        private char grade;
+        final String id, name; // subject name and ID
+        final int credits; // subject credits
+        private char grade; // grade field for student who enrolled this subject
 
-        private SubjectInfo(String id, String name, int credits) {
+        private SubjectInfo(String id, String name, int credits) { // constructors
             this.id = id;
             this.name = name;
             this.credits = credits;
@@ -16,14 +16,14 @@ class Subject {
 
         char getGrade() {
             return grade;
-        }
+        } //getter and setter
 
         void setGrade(char grade) {
             this.grade = grade;
         }
     }
 
-    final static ArrayList<SubjectInfo> subjects = new ArrayList<SubjectInfo>(){{
+    final static ArrayList<SubjectInfo> subjects = new ArrayList<SubjectInfo>(){{ // all subjects available as ArrayList
         add(new SubjectInfo("01006003", "ENGINEERING MATHEMATICS 3", 3));
         add(new SubjectInfo("01076232", "ELECTRONICS FOR COMPUTER ENGINEERING", 3));
         add(new SubjectInfo("01076233", "CIRCUITS AND ELECTRONICS LABORATORY", 1));
