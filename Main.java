@@ -42,13 +42,13 @@ public class Main {
                 return;
             for(Student i : students){ // iterate through students list
                 if(i.getId().equals(loggedInUser.getId())){ // if logged in user id match one in list
+                    found = true;
                     if(i.isSubmitted()){ // if he submitted enroll, he can't use this menu again
                         ui.printError("You cannot enroll twice!");
                         successLogIn = false;
                     }
                     else{
                         loggedInUser = i;
-                        found = true;
                     }
                 }
             }
@@ -84,7 +84,7 @@ public class Main {
                     else if(choice == 4){ // remove method
                         ui.removeMenu(loggedInUser);
                     }
-                    else if(choice == 5){ // submit confirmation
+                    else{ // submit confirmation
                         choice = ui.submitMenu();
                         if(choice == 1){
                             loggedInUser.setSubmitStatus(true);
