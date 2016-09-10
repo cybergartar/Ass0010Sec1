@@ -128,7 +128,7 @@ public class Main {
                     choice = ui.gradingMenu(students);
                 }while(choice != 1);
             }
-            else if(choice == 2){ // display all student menu
+            else { // display all student menu
                 do{
                     choice = ui.gradeSummaryMenu(students);
                 }while(choice != 1);
