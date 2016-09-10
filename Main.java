@@ -40,17 +40,15 @@ public class Main {
             loggedInUser = ui.printStudentLogin(); // get user from student login
             if(loggedInUser == null) // if returned object is null
                 return;
-            if(!students.isEmpty()){
-                for(Student i : students){ // iterate through students list
-                    if(i.getId().equals(loggedInUser.getId())){ // if logged in user id match one in list
-                        if(i.isSubmitted()){ // if he submitted enroll, he can't use this menu again
-                            ui.printError("You cannot enroll twice!");
-                            successLogIn = false;
-                        }
-                        else{
-                            loggedInUser = i;
-                            found = true;
-                        }
+            for(Student i : students){ // iterate through students list
+                if(i.getId().equals(loggedInUser.getId())){ // if logged in user id match one in list
+                    if(i.isSubmitted()){ // if he submitted enroll, he can't use this menu again
+                        ui.printError("You cannot enroll twice!");
+                        successLogIn = false;
+                    }
+                    else{
+                        loggedInUser = i;
+                        found = true;
                     }
                 }
             }
