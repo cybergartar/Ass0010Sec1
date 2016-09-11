@@ -85,7 +85,7 @@ class UI {
         }while (!validLogin); // keep doing while not valid login
 
         return new Student(id, name, surname); // return student object of whom login
-    } //pppppp
+    }
 
     int printStudentMenu(String studentName){ // print student main menu
         printStudentBar();
@@ -250,10 +250,11 @@ class UI {
                                 isEnrolled = true;
                             }
                         if(!isEnrolled){ // if he has not enrolled in input subject
-                            student.enroll(i); // enroll for him
-                            isFinished = true; // set status to "finished adding"
-                            System.out.println("Add complete!"); // notify him
-                            waitEnterKey("continue");
+                            isFinished = student.enroll(i); // enroll for him
+                            if(isFinished) {
+                                System.out.println("Add complete!"); // notify him
+                                waitEnterKey("continue");
+                            }
                         }
                     }
 
@@ -304,14 +305,14 @@ class UI {
                 return;
 
             for(Subject.SubjectInfo i : Subject.subjects){ // iterate through all available subject
-                if(i.id.equals(replaceID)) { // if input match available subject
+                if(i.id.equals(replaceID) && student.getCredits()-findSubject.credits+i.credits >= 9) { // if input match available subject
                     replaceSubject = i; // mark this subject
                     validReplace = true;
                     break;
                 }
             }
             if(!validReplace) {
-                printError("Subject not found or invalid subject ID!");
+                printError("Subject not found or invalid subject ID or your credits will go below 9!");
             }
         } while(!validReplace); // keep doing while not found id
 
