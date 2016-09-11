@@ -85,7 +85,7 @@ class UI {
         }while (!validLogin); // keep doing while not valid login
 
         return new Student(id, name, surname); // return student object of whom login
-    }
+    } //pppppp
 
     int printStudentMenu(String studentName){ // print student main menu
         printStudentBar();
@@ -432,7 +432,7 @@ class UI {
                         case 'B': grade += 3.00; break;
                         case 'C': grade += 2.00; break;
                         case 'D': grade += 1.00; break;
-                        case 'F': grade += 0.00; break;
+                        default: break;
                     }
                     i.setGrade(gradeChar); // set grade for each subject
                 }
